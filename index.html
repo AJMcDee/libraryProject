@@ -1,5 +1,14 @@
 <html>
     <body>
+        <div id="addBookFormDiv">
+            <form id="addBookForm">
+            Title: <input type="text" name="bookTitle" id="bookTitle">
+            Author: <input type="text" name="bookAuthor" id="bookAuthor">
+            Pages: <input type="text" name="bookPageCount" id="bookPageCount">
+            Read? <input type="checkbox" name="bookRead" id="bookRead">
+            <input type="submit" value="submit" id="addBookSubmit" onclick="return false;">
+            </form>
+        </div>
         <div id="addButtonContainer">
             <button id="addBook">
                 Add Book to Library

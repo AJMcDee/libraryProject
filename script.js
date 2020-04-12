@@ -1,8 +1,19 @@
 let myLibrary = [];
-
-let bookDisplay = document.getElementById("displayBooks");
+const bookDisplay = document.getElementById("displayBooks");
 const addBookButton = document.getElementById("addBook");
+const addBookSubmit = document.getElementById("addBookSubmit");
+document.getElementById("addBookFormDiv").style.visibility = "hidden"
 
+
+addBookButton.addEventListener("click", e => {
+    document.getElementById("addBookFormDiv").style.visibility = "visible";
+})
+
+addBookSubmit.addEventListener("click", e => {
+    addNewBook()
+    document.getElementById("addBookForm").reset(); 
+    document.getElementById("addBookFormDiv").style.visibility = "hidden";
+})
 
 function Book(title, author, pages, read) {
     this.ID = Date.now();
@@ -10,25 +21,45 @@ function Book(title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     this.read = read;
-    
-    this.info = `${this.title} by ${this.author}, ${this.pages} pages, ${this.readString}`;
     return this.info
 }
 
-addBookButton.addEventListener("click", e => {
-    
-    const title = prompt("What is the title?")
-    const author = prompt("Who is the author?")
-    const pages = prompt("How many pages?")
-    const read = prompt("Have you read it? Enter true or false.")
-    let newBook = new Book(title, author, pages, read)
-    addBook(newBook)
-    render();
-})
+function insertInDom(item, index) {
+    let newDiv = document.createElement('div');
+    newDiv.innerHTML = `<h1>${item.title}</h1><h2>${item.author}</h2><h3>${item.pages} pages</h3><h4>${item.readString}</h4>`;
+    newDiv.id = `${index}`
+    bookDisplay.insertAdjacentElement("beforeend", newDiv)
+}
+
+function addNewBook() {
+    const title = document.getElementById("bookTitle").value
+    const author = document.getElementById("bookAuthor").value
+    const pages = document.getElementById("bookPageCount").value
+    const read = document.getElementById("bookRead").checked
+    const newBook = new Book(title, author, pages, read)
+    addBook(newBook);
+    const index = myLibrary.length - 1;
+    insertInDom(newBook, index)
+}
 
 function addBook(bookObj) {
+        if (bookObj.read === true) {
+            bookObj.readString = "Completed"
+        } else if (bookObj.read === false) {      
+            bookObj.readString = "Unread";
+        } else {
+            bookObj.readString = "Invalid entry";
+        }
     myLibrary.push(bookObj);
 }
+
+function render(){
+    myLibrary.forEach(function(item, index) {
+        insertInDom(item, index)
+    }); 
+}
+
+
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false)
 const theScienceOfMom = new Book("The Science of Mom", "Callahan", 174, true)
 const theBookThief = new Book("The Book Thief", "Kirokawa", 199, true)
@@ -38,27 +69,7 @@ addBook(theHobbit);
 addBook(theScienceOfMom);
 addBook(theBookThief);
 addBook(harryPotterPhilosopher);
-
-function render(){
-    myLibrary.forEach(item => {
-
-        if (item.read == true || item.read === "true" || item.read == "true" || item.read === true) {
-            item.readString = "Completed"
-        } else if (item.read == false || item.read === "false" || item.read == "false" || item.read === false) {      
-            item.readString = "Unread";
-        } else {
-            item.readString = "Invalid entry";
-        }
-
-        let newDiv = document.createElement('div');
-        newDiv.innerHTML = `<h1>${item.title}</h1><h2>${item.author}</h2><h3>${item.pages} pages</h3><h4>${item.readString}</h4>`;
-        bookDisplay.appendChild(newDiv);
-        
-
-    }); 
-}
-
-
+render()
 
 
 
