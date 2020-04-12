@@ -1,12 +1,16 @@
+
+
+
 let myLibrary = [];
 const bookDisplay = document.getElementById("displayBooks");
 const addBookButton = document.getElementById("addBook");
 const addBookSubmit = document.getElementById("addBookSubmit");
-document.getElementById("addBookFormDiv").style.visibility = "hidden"
+document.getElementById("addBookFormDiv").style.display = "none";
 
 
 addBookButton.addEventListener("click", e => {
     document.getElementById("addBookFormDiv").style.visibility = "visible";
+    document.getElementById("addBookFormDiv").style.display = "";
 })
 
 addBookSubmit.addEventListener("click", e => {
@@ -20,12 +24,40 @@ function createRemoveButton(divID) {
     let removeButton = document.createElement('button')
     removeButton.textContent = "Remove Book"
     removeButton.id =  `removeBook${divID}`
+    currentDiv.insertAdjacentHTML("beforeend", "<hr>")
     currentDiv.insertAdjacentElement("beforeend", removeButton)
+    currentDiv.insertAdjacentHTML("beforeend", "<hr>")
     removeButton.addEventListener("click", e => {
         currentDiv.parentNode.removeChild(currentDiv);
         myLibrary[divID] = null;
     })
 }
+
+function createToggleButton(divID) {
+    const currentDiv = document.getElementById(divID)
+    let toggleButton = document.createElement('button')
+    const currentItem = myLibrary[divID];
+    if (currentItem.read === true) {
+        toggleButton.textContent = "I haven't read this!"
+    } else {
+        toggleButton.textContent = "I've read this!"
+    }
+    toggleButton.id =  `toggleRead${divID}`
+    currentDiv.insertAdjacentElement("beforeend", toggleButton)
+    toggleButton.addEventListener("click", function() {
+        if (currentItem.read === true) {
+            currentItem.read = false
+            currentItem.readString = "Unread"
+            toggleButton.textContent = "I've read this!"
+        } else {
+            currentItem.read = true
+            currentItem.readString = "Completed"
+            toggleButton.textContent = "I haven't read this!"
+        }
+        document.getElementById(`h4${divID}`).textContent = currentItem.readString
+    })
+}
+
 
 
 function Book(title, author, pages, read) {
@@ -36,10 +68,18 @@ function Book(title, author, pages, read) {
     return this.info
 }
 
+Book.prototype.toggleRead = function() {
+    (this.read === true) ? this.read = false: this.read = true;
+}
+
 function insertInDom(item, index) {
     let newDiv = document.createElement('div');
-    newDiv.innerHTML = `<h1>${item.title}</h1><h2>${item.author}</h2><h3>${item.pages} pages</h3><h4>${item.readString}</h4>`;
+    newDiv.innerHTML = `<h1>${item.title}</h1>
+    <h2>${item.author}</h2>
+    <h3>${item.pages} pages</h3>
+    <h4  id="h4${index}">${item.readString}</h4>`;
     newDiv.id = `${index}`
+    newDiv.className = "bookitem";
     bookDisplay.insertAdjacentElement("beforeend", newDiv)
 }
 
@@ -52,6 +92,8 @@ function addNewBook() {
     const index = addBook(newBook);
     insertInDom(newBook, index)
     createRemoveButton(index)
+    createToggleButton(index)
+    assignCover(index)
 }
 
 function addBook(bookObj) {
@@ -78,19 +120,37 @@ function render(){
     myLibrary.forEach(function(item, index) {
         insertInDom(item, index)
         createRemoveButton(index)
+        createToggleButton(index)
+        assignCover(index)
     }); 
 }
 
 
+function assignCover(divID) {
+    const currentDiv = document.getElementById(divID)
+    const colors = ['#717C89', '#522A27', '#B49082', '#98473E', '#9F7E69',
+    '#03312E', '#211103', '#283833', '#471018', '#7A5C58']
+    const colorChoice = colors[Math.floor((Math.random() * colors.length))]
+    currentDiv.style.backgroundColor = colorChoice;
+
+    const textures = ['texture1.png', 'texture2.png', 'texture3.png', 
+    'texture4.png', 'texture5.png']
+    const textureChoice = textures[Math.floor((Math.random() * textures.length))]
+    currentDiv.style.backgroundImage = `url('${textureChoice}')`;
+
+
+    const widthChoice = 60 + Math.floor(Math.random() * 40);
+    currentDiv.style.width = widthChoice;
+
+}
+
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false)
 const theScienceOfMom = new Book("The Science of Mom", "Callahan", 174, true)
-const theBookThief = new Book("The Book Thief", "Kirokawa", 199, true)
-const harryPotterPhilosopher = new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", 244, true)
+const theBookThief = new Book("The Book Thief", "Zusak", 199, true)
 
 addBook(theHobbit);
 addBook(theScienceOfMom);
 addBook(theBookThief);
-addBook(harryPotterPhilosopher);
 render()
 
 

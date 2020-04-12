@@ -1,4 +1,56 @@
 body {
-    text-decoration: underline;
-    under
+    background-image: url("library.png");
+    background-color: darkbrown;
+    background-position: top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-blend-mode: hard-light;
+    background-size: cover;
+}
+
+#welcome {
+    padding-top: 50px;
+    font-size: 60px;
+    color: black;
+    font-family: 'Great Vibes', 'Times New Roman', Times, serif ;
+}
+#displayBooks {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: space-between;
+    border: 10px solid #352619;
+    width: 70%;
+}
+
+.bookitem {
+    color: white;
+    padding: 10px;
+    border: 4px solid #211103;
+    overflow-wrap: break-word;
+
+
+
+}
+
+.bookitem h1 {
+    font-size: 20px;
+}
+
+.bookitem h2 {
+    font-size: 17px;
+}
+
+.bookitem h3 {
+    font-size: 12px;
+}
+
+.bookitem h4 {
+    font-size: 14px;
+}
+
+.bookitem button {
+    background-color: wheat;
+    font-size: 12px;
+    margin: 0;
 }

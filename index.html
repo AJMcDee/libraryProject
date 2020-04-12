@@ -1,5 +1,17 @@
 <html>
-    <body>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Great Vibes">
+    </head>
+    <body><center>
+        <span id="welcome">Welcome to your bookshelf</span>
+        <div id="addButtonContainer">
+            <button id="addBook">
+                Add Book
+            </button>
+        </div>
+        <br><br>
         <div id="addBookFormDiv">
             <form id="addBookForm">
             Title: <input type="text" name="bookTitle" id="bookTitle">
@@ -9,16 +21,12 @@
             <button id="addBookSubmit" onclick="return false;">Submit</button>
             </form>
         </div>
-        <div id="addButtonContainer">
-            <button id="addBook">
-                Add Book to Library
-            </button>
-        </div>
+        <br><br>
+
         <div id="displayBooks">
 
         </div>
 
-
         <script src="script.js"></script>
-    </body>
+    </center></body>
 </html>
