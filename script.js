@@ -116,14 +116,6 @@ function addBook(bookObj) {
     }  
 }
 
-function render(){
-    myLibrary.forEach(function(item, index) {
-        insertInDom(item, index)
-        createRemoveButton(index)
-        createToggleButton(index)
-        assignCover(index)
-    }); 
-}
 
 
 function assignCover(divID) {
@@ -151,7 +143,16 @@ const theBookThief = new Book("The Book Thief", "Zusak", 199, true)
 addBook(theHobbit);
 addBook(theScienceOfMom);
 addBook(theBookThief);
-render()
+
+// Render existing library
+(function (){
+    myLibrary.forEach(function(item, index) {
+        insertInDom(item, index)
+        createRemoveButton(index)
+        createToggleButton(index)
+        assignCover(index)
+    }); 
+})();
 
 
 
